@@ -1,47 +1,106 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Image from "next/image";
-import { services } from "@/lib/services";
 import { WHATSAPP_LINK } from "@/lib/constants";
+import { getLocaleFromCookies } from "@/lib/i18n-server";
+import { t } from "@/lib/i18n";
+import { getServicesForLocale } from "@/lib/services-localized";
 
-export const metadata: Metadata = {
-  title: "Nos Services | J & J Consulting SARL — Domaines d'intervention",
-  description:
-    "Découvrez nos 10 domaines d'intervention : création d'entreprise, assistance comptable, fiscalité, analyse financière, business plan, contrôle de gestion et plus.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocaleFromCookies();
+  return {
+    title: t(locale, "meta.services.title"),
+    description: t(locale, "meta.services.desc"),
+  };
+}
 
-export default function NosServicesPage() {
+export default async function NosServicesPage() {
+  const locale = await getLocaleFromCookies();
+  const services = getServicesForLocale(locale);
   return (
     <>
-      <section className="min-h-[50vh] bg-[#0A0A0A] text-white flex items-center">
-        <div className="max-w-7xl mx-auto px-6 lg:px-16 py-24 w-full">
-          <Image
-            src="/logo.png"
-            alt="J & J Consulting SARL"
-            width={140}
-            height={48}
-            className="h-5 w-auto mb-6"
-            style={{ width: "auto", height: "auto" }}
-          />
-          <p className="text-[#C9A84C] text-[10px] font-semibold tracking-[4px] uppercase mb-4">
-            Nos domaines d&apos;intervention
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold mb-6">
-            J & J Consulting SARL est votre partenaire pour une gestion
-            d&apos;entreprise performante.
-          </h1>
-          <p className="text-white/80 max-w-2xl mb-8">
-            Spécialistes en Audit, Comptabilité et Conseil Fiscal, nous
-            transformons vos défis financiers en opportunités de croissance.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#C9A84C] hover:bg-[#E4C97A] text-black px-6 py-3 text-sm font-semibold transition-colors"
-            >
-              Découvrir nos services
-            </a>
+      <section className="relative overflow-hidden bg-[#F4F4F4] pt-36 md:pt-40 lg:pt-44 pb-20 lg:pb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16 w-full">
+          <div className="flex items-center">
+            <div className="w-full md:w-1/2 relative z-20 services-hero-copy-enter">
+              <p className="text-[#C9A84C] text-[10px] font-semibold tracking-[4px] uppercase mb-4">
+                {t(locale, "services.hero.kicker")}
+              </p>
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-[#0A0A0A] mb-6 leading-tight">
+                {t(locale, "services.hero.title")}
+              </h1>
+              <p className="text-gray-600 text-base lg:text-lg max-w-xl mb-10">
+                {t(locale, "services.hero.subtitle")}
+              </p>
+              <div className="mt-8 flex flex-col-reverse gap-6 lg:flex-row lg:items-center">
+                <a
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="jj-btn-slide jj-btn-slide-dark-subtle inline-flex w-fit rounded-full bg-[#0A0A0A] px-7 py-3 font-medium leading-7"
+                >
+                  {t(locale, "services.hero.cta")}
+                </a>
+                <span className="flex flex-col">
+                  <a
+                    href="tel:+237620275758"
+                    className="inline-block text-lg font-medium text-[#0A0A0A]"
+                  >
+                    {t(locale, "services.hero.call")}
+                  </a>
+                  <span className="inline-block text-gray-500">
+                    {t(locale, "services.hero.callSub")}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute right-0 top-0 hidden md:block w-1/2 h-full min-h-[760px]">
+          <div className="absolute right-[-25%] top-[-140px] w-[860px] h-[860px]">
+            <div className="absolute inset-0 rounded-full bg-[#0A0A0A]" />
+
+            {/* Pastilles jaunes sur la bordure: effet dedans/dehors */}
+            <div className="absolute left-0 top-[42%] -translate-x-1/2 w-24 h-24 rounded-full bg-[#C9A84C] z-20 ring-8 ring-[#F4F4F4]" />
+            <div className="absolute right-[14%] bottom-[10%] translate-x-1/2 translate-y-1/2 w-16 h-16 rounded-full bg-[#C9A84C] z-20 ring-8 ring-[#F4F4F4]" />
+            <div className="absolute right-[32%] bottom-[20%] w-14 h-8 rounded-full border-t-2 border-b-2 border-[#C9A84C]/60 z-20" />
+          </div>
+
+          <div className="absolute right-[2%] top-[92px] z-10 h-[600px] w-[600px] overflow-hidden rounded-full">
+            <div className="book-page-scene absolute inset-0">
+              <div className="book-page-layer book-page-a">
+                <Image
+                  src="/CNPS.jpg"
+                  alt={t(locale, "services.hero.alt1")}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 600px"
+                  priority
+                />
+                <div className="book-page-gloss" aria-hidden />
+              </div>
+              <div className="book-page-layer book-page-b">
+                <Image
+                  src="/dgi.png"
+                  alt={t(locale, "services.hero.alt2")}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 600px"
+                />
+                <div className="book-page-gloss" aria-hidden />
+              </div>
+              <div className="book-page-layer book-page-c">
+                <Image
+                  src="/ohada.jpg"
+                  alt={t(locale, "services.hero.alt2")}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 600px"
+                />
+                <div className="book-page-gloss" aria-hidden />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -50,10 +109,10 @@ export default function NosServicesPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "10+", label: "Années d'expérience" },
-              { value: "100%", label: "Taux de satisfaction visé" },
-              { value: "5", label: "Domaines d'expertise" },
-              { value: "0", label: "Frais cachés" },
+              { value: "5", label: t(locale, "services.stats.years") },
+              { value: "100%", label: t(locale, "services.stats.satisfaction") },
+              { value: "5", label: t(locale, "services.stats.expertise") },
+              { value: "0", label: t(locale, "services.stats.fees") },
             ].map((stat, i) => (
               <div key={i}>
                 <span className="font-serif text-4xl font-bold text-[#C9A84C]">
@@ -69,26 +128,36 @@ export default function NosServicesPage() {
       <section id="domaines-intervention" className="py-20 lg:py-24 bg-[#F5F5F5]">
         <div className="max-w-7xl mx-auto px-6 lg:px-16">
           <p className="text-[#C9A84C] text-[10px] font-semibold tracking-[4px] uppercase mb-4">
-            Nos domaines d&apos;intervention
+            {t(locale, "services.section.kicker")}
           </p>
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-[#0A0A0A] mb-6">
-            J & J Consulting SARL accompagne les entreprises dans la gestion, le
-            conseil, l&apos;assistance et la formation.
+            {t(locale, "services.section.title")}
           </h2>
           <p className="text-gray-600 max-w-3xl mb-16">
-            Avec des solutions sur mesure pour optimiser la performance et la
-            rentabilité.
+            {t(locale, "services.section.subtitle")}
           </p>
 
           <div className="space-y-8">
             {services.map((service) => {
               const Icon = service.icon;
-              const whatsappMsg = `Bonjour, je souhaite des informations détaillées sur le service ${service.title}. Merci de m'expliquer les modalités et le déroulement.`;
+              const whatsappMsg = t(locale, "services.waDetail").replace("{service}", service.title);
               const waLink = `${WHATSAPP_LINK}?text=${encodeURIComponent(whatsappMsg)}`;
 
+              const hubAnchorBefore =
+                service.slug === "conseil-strategique"
+                  ? "conseil"
+                  : service.slug === "business-plan"
+                    ? "accompagnement-operationnel"
+                    : service.slug === "assistance-comptable"
+                      ? "assistance-operationnelle"
+                      : null;
+
               return (
-                <div
-                  key={service.slug}
+                <Fragment key={service.slug}>
+                  {hubAnchorBefore ? (
+                    <div id={hubAnchorBefore} tabIndex={-1} className="scroll-mt-28" aria-hidden />
+                  ) : null}
+                  <div
                   id={service.slug}
                   className="bg-white rounded-lg border border-gray-200 p-8 lg:p-10 hover:border-[#C9A84C]/50 transition-colors scroll-mt-24"
                 >
@@ -128,34 +197,36 @@ export default function NosServicesPage() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-[#C9A84C] font-semibold hover:text-[#9E7B2E] transition-colors"
                       >
-                        En savoir plus →
+                        {t(locale, "services.card.more")}
                       </a>
                     </div>
                   </div>
                 </div>
+                </Fragment>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="py-20 lg:py-24 bg-[#0A0A0A] text-white text-center">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-serif text-3xl font-semibold mb-6">
-            Prêt à transformer votre gestion financière ?
-          </h2>
-          <p className="text-white/80 mb-8">
-            Nos experts analysent votre situation et vous proposent les solutions
-            les plus adaptées à votre entreprise.
-          </p>
-          <a
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-[#25D366] hover:bg-[#20BD5A] text-white px-8 py-4 font-semibold transition-colors"
-          >
-            Contacter un expert maintenant
-          </a>
+      <section className="bg-white py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-6 lg:px-16">
+          <div className="rounded-2xl border border-[#C9A84C]/30 bg-[#0A0A0A] px-6 py-12 text-center text-white shadow-[0_24px_60px_-28px_rgba(0,0,0,0.55)] sm:px-10 lg:px-14">
+            <h2 className="mb-5 font-serif text-3xl font-semibold leading-tight md:text-4xl">
+              {t(locale, "services.cta.title")}
+            </h2>
+            <p className="mx-auto mb-8 max-w-2xl text-white/80">
+              {t(locale, "services.cta.subtitle")}
+            </p>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="jj-btn-slide jj-btn-slide-whatsapp inline-flex items-center justify-center rounded-lg bg-[#25D366] px-8 py-3 text-sm font-semibold"
+            >
+              {t(locale, "services.cta.button")}
+            </a>
+          </div>
         </div>
       </section>
     </>

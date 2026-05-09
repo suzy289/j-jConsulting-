@@ -3,7 +3,10 @@ export interface FAQItem {
   answer: string;
 }
 
-export const faqItems: FAQItem[] = [
+export type LocalizedFAQ = Record<"fr" | "en", FAQItem[]>;
+
+export const faqItemsByLocale: LocalizedFAQ = {
+  fr: [
   {
     question: "Quels types d'entreprises accompagnez-vous ?",
     answer:
@@ -44,4 +47,50 @@ export const faqItems: FAQItem[] = [
     answer:
       "Oui. Pour toute urgence (redressement fiscal, contrôle inopiné, clôture urgente), contactez-nous directement sur WhatsApp pour une réponse immédiate.",
   },
-];
+],
+  en: [
+    {
+      question: "What types of businesses do you support?",
+      answer:
+        "J & J Consulting SARL supports all types of structures: micro-businesses, SMEs, startups, NGOs, associations, individual entrepreneurs and large companies across all sectors in Cameroon.",
+    },
+    {
+      question: "Do you offer a free first consultation?",
+      answer:
+        "Yes. We offer an initial diagnostic exchange at no cost to understand your needs and guide you toward the most suitable solution.",
+    },
+    {
+      question: "How are your fees determined?",
+      answer:
+        "Our fees are quoted transparently based on the nature and complexity of the engagement. No hidden fees. Everything is agreed in writing before the work begins.",
+    },
+    {
+      question: "Do you ensure confidentiality of our financial data?",
+      answer:
+        "Confidentiality is one of our core values. Your data is handled with strict discretion and protected in accordance with professional ethics.",
+    },
+    {
+      question: "Do you work only in Yaoundé?",
+      answer:
+        "No. Although based in Yaoundé, we operate across Cameroon and can deliver remote engagements for clients outside the capital.",
+    },
+    {
+      question: "Can you train my accounting team?",
+      answer:
+        "Absolutely. We offer tailored professional training in accounting, tax, Sage Saari, management control and financial management.",
+    },
+    {
+      question: "Which software do you use?",
+      answer:
+        "Primarily Sage Saari, as well as advanced office tools (Excel, Word, PowerPoint) and Cameroon’s DGI/CNPS e-filing platforms.",
+    },
+    {
+      question: "Can I reach you in an emergency?",
+      answer:
+        "Yes. For any emergency (tax adjustment, unexpected audit, urgent closing), contact us directly on WhatsApp for a quick response.",
+    },
+  ],
+};
+
+export const faqItems: FAQItem[] = faqItemsByLocale.fr;
+

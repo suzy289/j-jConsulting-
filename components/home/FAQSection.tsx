@@ -3,21 +3,24 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
-import { faqItems } from "@/lib/faq";
+import { faqItemsByLocale } from "@/lib/faq";
+import { useI18n } from "@/components/i18n/I18nProvider";
 
 export function FAQSection() {
+  const { t, locale } = useI18n();
+  const faqItems = faqItemsByLocale[locale];
   const [openId, setOpenId] = useState<number | null>(0);
 
   return (
-    <section className="py-20 lg:py-24 bg-white">
-      <div className="max-w-3xl mx-auto px-6 lg:px-16">
+    <section className="home-section-faq relative overflow-hidden rounded-b-[1.75rem] rounded-t-[1.25rem] bg-white py-20 md:rounded-bl-[2.5rem] lg:py-24">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 lg:px-16">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-[#C9A84C] text-[10px] font-semibold tracking-[4px] uppercase mb-4 text-center"
         >
-          F.A.Q
+          {t("home.faq.kicker")}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -25,7 +28,7 @@ export function FAQSection() {
           viewport={{ once: true }}
           className="font-serif text-3xl md:text-4xl font-semibold text-[#0A0A0A] mb-16 text-center"
         >
-          Questions fréquemment posées
+          {t("home.faq.title")}
         </motion.h2>
 
         <div className="space-y-4">

@@ -31,7 +31,6 @@ export const services: Service[] = [
     description:
       "Étude de faisabilité, choix de la forme juridique et fiscale, rédaction des statuts, immatriculation et accompagnement dans toutes les démarches administratives.",
     items: [
-      "Étude de faisabilité du projet",
       "Conseils formes juridiques et fiscales",
       "Rédaction des statuts et immatriculation",
     ],
@@ -45,7 +44,7 @@ export const services: Service[] = [
     description:
       "Tenue comptable, suivi des opérations courantes, préparation des états financiers et mise en place d'outils de pilotage.",
     items: [
-      "Tenue comptable et opérations courantes",
+      "Tenue des operations comptable comptable",
       "Bilans et comptes de résultat",
       "Comptabilité analytique et tableaux de bord",
     ],
@@ -54,7 +53,7 @@ export const services: Service[] = [
   {
     id: 3,
     slug: "fiscalite-social",
-    title: "Fiscalité & Social",
+    title: "Fiscalite et cnps",
     subtitle: "Assistance fiscale et sociale",
     description:
       "Prise en charge des déclarations fiscales et sociales, optimisation fiscale et sécurisation de vos relations avec l'administration.",
@@ -87,6 +86,7 @@ export const services: Service[] = [
     description:
       "Construction d'un Business Plan complet : stratégie, étude de marché, projections financières et plan de trésorerie.",
     items: [
+      "Étude de faisabilité du projet",
       "Objectifs stratégiques et étude de marché",
       "Plan d'action commercial",
       "Prévisions financières et plan de trésorerie",
@@ -115,7 +115,7 @@ export const services: Service[] = [
     description:
       "Analyse des besoins, choix et déploiement de logiciels de gestion adaptés à votre activité (Sage Saari).",
     items: [
-      "Analyse des besoins SI",
+      "Analyse des besoins systeme d'information",
       "Choix et installation du logiciel",
       "Paramétrage et formation des utilisateurs",
     ],
@@ -131,7 +131,6 @@ export const services: Service[] = [
     items: [
       "Conseil en gestion administrative et financière",
       "Stratégies de développement et financement",
-      "Veille réglementaire et conseils juridiques",
     ],
     icon: Lightbulb,
   },

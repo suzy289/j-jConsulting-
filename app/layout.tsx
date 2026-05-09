@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { ScrollRevealOnView } from "@/components/ui/ScrollRevealOnView";
+import { I18nProvider } from "@/components/i18n/I18nProvider";
+import { getLocaleFromCookies } from "@/lib/i18n-server";
 import "./globals.css";
+
+/** Supprime les attributs injectés par l’extension Cursor (évite les erreurs d’hydratation). */
+const STRIP_CURSOR_ATTR_SCRIPT = `(function(){function s(n){if(!n||n.nodeType!==1)return;try{var e=n;if(e.hasAttribute&&e.hasAttribute("data-cursor-element-id"))e.removeAttribute("data-cursor-element-id");e.querySelectorAll&&e.querySelectorAll("[data-cursor-element-id]").forEach(function(x){x.removeAttribute("data-cursor-element-id")})}catch(t){}}function b(){s(document.documentElement);document.body&&s(document.body)}b();document.addEventListener("DOMContentLoaded",b);try{new MutationObserver(function(r){r.forEach(function(m){if(m.type==="attributes"&&m.attributeName==="data-cursor-element-id"&&m.target&&m.target.removeAttribute)m.target.removeAttribute("data-cursor-element-id");m.addedNodes&&m.addedNodes.forEach(function(n){s(n)})})}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:["data-cursor-element-id"]})}catch(e){}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://jjconsulting.cm"),
@@ -20,27 +27,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocaleFromCookies();
   return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className="antialiased" suppressHydrationWarning>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var d=document;var r=function(){try{d.querySelectorAll('[data-cursor-element-id]').forEach(function(e){e.removeAttribute('data-cursor-element-id')})}catch(e){}};r();if(d.readyState==='loading'){d.addEventListener('DOMContentLoaded',r);d.addEventListener('readystatechange',function(){if(d.readyState!=='loading')r()})}setTimeout(r,0);requestAnimationFrame(r)})();`,
-          }}
-        />
-        <Navbar />
-        <main>
-          <div id="app-content" suppressHydrationWarning>
-            {children}
-          </div>
-        </main>
-        <Footer />
-        <WhatsAppButton />
+    <html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
+      <body className="jj-site antialiased" suppressHydrationWarning>
+        <Script id="jj-strip-cursor-attrs" strategy="beforeInteractive">
+          {STRIP_CURSOR_ATTR_SCRIPT}
+        </Script>
+        <I18nProvider>
+          <Navbar />
+          <main className="min-w-0 overflow-x-hidden">
+            <div id="app-content" className="min-w-0" suppressHydrationWarning>
+              {children}
+            </div>
+          </main>
+          <Footer />
+          <WhatsAppButton />
+          <ScrollRevealOnView />
+        </I18nProvider>
       </body>
     </html>
   );
